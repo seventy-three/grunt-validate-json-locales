@@ -38,13 +38,6 @@ grunt.initConfig({
 ```
 
 ### Options
-allowMissingKeys: false,
-      allowedMissingKeys: [],
-      allowEmptyTranslations: false,
-      allowedEmptyTranslations: [],
-      treatAsEmptyRegExp: null,
-      validateSameKeys: true
-
 
 #### options.allowMissingKeys
 Type: `Boolean`
