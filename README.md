@@ -2,6 +2,8 @@
 
 > Validate locales files in JSON format with a Grunt task.
 
+[![Build Status](https://travis-ci.org/seventy-three/grunt-validate-json-locales.svg?branch=master)](https://travis-ci.org/seventy-three/grunt-validate-json-locales)
+
 ## Getting Started
 This plugin requires Grunt `~0.4.5`
 
