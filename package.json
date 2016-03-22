@@ -1,0 +1,32 @@
+{
+  "name": "grunt-validate-json-locales",
+  "description": "Validate locales files in JSON format with a Grunt task.",
+  "version": "0.1.0",
+  "homepage": "https://github.com/seventy-three/grunt-validate-json-locales",
+  "author": {
+    "name": "Florian Sey",
+    "email": "florian.sey@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/seventy-three/grunt-validate-json-locales.git"
+  },
+  "bugs": {
+    "url": "https://github.com/seventy-three/grunt-validate-json-locales/issues"
+  },
+  "license": "MIT",
+  "scripts": {
+    "test": "mocha",
+    "lint": "grunt jshint"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.5",
+    "grunt-contrib-jshint": "^0.9.2"
+  },
+  "keywords": [
+    "gruntplugin"
+  ],
+  "dependencies": {
+    "validate-json-locales": "^0.1.0"
+  }
+}
