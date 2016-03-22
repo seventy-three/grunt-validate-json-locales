@@ -17,14 +17,14 @@ Once the plugin has been installed, it may be enabled inside your Gruntfile with
 grunt.loadNpmTasks('grunt-validate-json-locales');
 ```
 
-## The "validate_json_locales" task
+## The "validateJsonLocales" task
 
 ### Overview
-In your project's Gruntfile, add a section named `validate_json_locales` to the data object passed into `grunt.initConfig()`.
+In your project's Gruntfile, add a section named `validateJsonLocales` to the data object passed into `grunt.initConfig()`.
 
 ```js
 grunt.initConfig({
-  validate_json_locales: {
+  validateJsonLocales: {
     options: {
       // Task-specific options go here.
     },
@@ -36,48 +36,123 @@ grunt.initConfig({
 ```
 
 ### Options
+allowMissingKeys: false,
+      allowedMissingKeys: [],
+      allowEmptyTranslations: false,
+      allowedEmptyTranslations: [],
+      treatAsEmptyRegExp: null,
+      validateSameKeys: true
 
-#### options.separator
+
+#### options.allowMissingKeys
+Type: `Boolean`
+Default value: `false`
+
+Whether missing keys are allowed in locales files or not.  
+This flag enables the `allowedMissingKeys` option.
+
+#### options.allowedMissingKeys
+Type: `Array`
+Default value: `[]`
+
+An array of allowed missing keys. If one of the key in the array matches a missing key in the files it will not be considered as missing.  
+Example:  
+locale_en.json
+```json
+{
+  "hello": "Hello",
+  "goodbye": "Goodbye"
+}
+```
+
+locale_fr.json
+```json
+{
+  "hello": "Bonjour"
+}
+```
+
+with `allowedMissingKeys = ['goodbye']` will pass validation.
+
+#### options.allowEmptyTranslations
+Type: `Boolean`
+Default value: `false`
+
+Whether empty translations are allowed or not.
+This flag enables the `allowedEmptyTranslations` and `treatAsEmptyRegExp` options.
+
+#### options.allowedEmptyTranslations
+Type: `Array`
+Default value: `[]`
+
+An array of allowed empty translation keys.
+Example:  
+```json
+{
+  "hello": "Bonjour",
+  "goodbye": ""
+}
+```
+
+with `allowedEmptyTranslations = ['goodbye']` will pass validation.
+
+#### options.treatAsEmptyRegExp
 Type: `String`
-Default value: `',  '`
+Default value: `null`
 
-A string value that is used to do something with whatever.
+A RegExp pattern that can be interpreted by `new RegExp(treatAsEmptyRegExp)`.
+If the pattern matches a translation value (`pattern.test(value) === true`), it will be treated as an empty translation.
+Example:  
+```json
+{
+  "hello": "Hello",
+  "goodbye": "_MISSING_"
+}
+```
 
-#### options.punctuation
-Type: `String`
-Default value: `'.'`
+with `treatAsEmptyRegExp = '^_.+_$'`, the *goodbye* translation will be treated as empty.  
 
-A string value that is used to do something else with whatever else.
+#### options.validateSameKeys
+Type: `Boolean`
+Default value: `true`
 
-### Usage Examples
+Whether to compare locale files keys with each other or not.
+When true the task will fail when files have different keys (missing keys).
 
-#### Default Options
-In this example, the default options are used to do something with whatever. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result would be `Testing, 1 2 3.`
+### Recommended settings
+
+#### Development
 
 ```js
 grunt.initConfig({
-  validate_json_locales: {
-    options: {},
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
+  dev: {
+    options: {
+      allowMissingKeys: true,
+      allowedMissingKeys: [],
+      allowEmptyTranslations: true,
+      allowedEmptyTranslations: [],
+      treatAsEmptyRegExp: null, // or whatever you consider as empty.
+      validateSameKeys: true
     },
+    files: ['locales/*.json'],
   },
 });
 ```
 
-#### Custom Options
-In this example, custom options are used to do something else with whatever else. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result in this case would be `Testing: 1 2 3 !!!`
+#### Production
 
 ```js
 grunt.initConfig({
-  validate_json_locales: {
+  dev: {
     options: {
-      separator: ': ',
-      punctuation: ' !!!',
+      allowMissingKeys: false,
+      allowedMissingKeys: [],
+      allowEmptyTranslations: false,
+      allowedEmptyTranslations: [],
+      treatAsEmptyRegExp: null, // or whatever you consider as empty.
+      validateSameKeys: true
     },
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
+    files: ['locales/*.json'],
   },
 });
 ```
@@ -85,5 +160,3 @@ grunt.initConfig({
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
-## Release History
-_(Nothing yet)_
